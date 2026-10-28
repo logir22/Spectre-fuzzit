@@ -35,6 +35,7 @@ from .joern_node import joern_node
 from .fuzzer_node import fuzzer_node
 from .report_node import report_node
 from .targets import fetch_bounty_targets, search_programs
+from .subenum import subenum_node
 from .evasion import ProxyRotator
 
 logger = logging.getLogger(__name__)
@@ -113,6 +114,7 @@ def build_graph() -> StateGraph:
     graph = StateGraph(SpectreState)
 
     graph.add_node("recon", recon_node)
+    graph.add_node("subenum", subenum_node)
     graph.add_node("semgrep", semgrep_node)
     graph.add_node("memory", memory_node)
     graph.add_node("joern", joern_node)
@@ -121,7 +123,8 @@ def build_graph() -> StateGraph:
     graph.add_node("report", report_node)
 
     graph.add_edge(START, "recon")
-    graph.add_edge("recon", "semgrep")
+    graph.add_edge("recon", "subenum")
+    graph.add_edge("subenum", "semgrep")
 
     graph.add_conditional_edges(
         "semgrep",

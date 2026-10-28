@@ -26,6 +26,7 @@ from agents.targets import (
     matches_scope,
     search_programs,
 )
+from agents.subenum import enumerate_subdomains
 
 app = typer.Typer(
     name="spectre",
@@ -146,6 +147,15 @@ def targets_chaos(
         return
     for p in fetch_chaos_index():
         typer.echo(f"[{p.platform}] {p.name} — {p.domains} domains{' (bounty)' if p.bounty else ''}")
+
+
+@targets_app.command("subdomains")
+def targets_subdomains(
+    domain: str = typer.Argument(..., help="Domain or wildcard (e.g. *.shopify.com)."),
+) -> None:
+    """Enumerate subdomains (crt.sh + subfinder/amass) for a domain."""
+    for sub in enumerate_subdomains(domain):
+        typer.echo(sub)
 
 
 if __name__ == "__main__":

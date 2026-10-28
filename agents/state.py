@@ -234,6 +234,7 @@ class SpectreState(TypedDict, total=False):
     confirmed: Annotated[list[SemgrepFinding], operator.add]
     false_positives: Annotated[list[str], operator.add]
     discovered_targets: Annotated[list[str], operator.add]
+    subdomains: Annotated[list[str], operator.add]
 
     # --- single-value fields (overwritten) ---
     fuzz_result: Optional[FuzzResult]
