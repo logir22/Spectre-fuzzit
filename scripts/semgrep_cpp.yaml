@@ -1,0 +1,41 @@
+# SPECTRE demo Semgrep rules for C/C++.
+#
+# Semgrep does NOT support metavariable ($var) patterns for C/C++ (the C
+# parser is not complete), so these rules use `pattern-regex` instead.
+# Point SPECTRE at this file:
+#
+#   python main.py <target> --semgrep-config scripts/semgrep_cpp.yaml
+#   docker compose run --rm agent --semgrep-config /app/scripts/semgrep_cpp.yaml /target
+
+rules:
+  - id: spectre-dangerous-copy
+    languages: [c, cpp]
+    message: Unsafe memory copy without explicit bounds checking.
+    severity: WARNING
+    metadata:
+      cwe: "CWE-787: Out-of-bounds Write"
+    pattern-regex: \b(memcpy|memmove|strcpy|strcat|strncpy|strncat|sprintf)\s*\(
+
+  - id: spectre-unbounded-read
+    languages: [c, cpp]
+    message: Raw read length may exceed the destination buffer.
+    severity: WARNING
+    metadata:
+      cwe: "CWE-120: Buffer Copy without Checking Size of Input"
+    pattern-regex: \b(read|recv|recvfrom|gets)\s*\(
+
+  - id: spectre-command-injection
+    languages: [c, cpp]
+    message: Command execution with a potentially attacker-controlled argument.
+    severity: ERROR
+    metadata:
+      cwe: "CWE-78: OS Command Injection"
+    pattern-regex: \b(system|popen|execl|execlp|execv|execvp|execve)\s*\(
+
+  - id: spectre-format-string
+    languages: [c, cpp]
+    message: Non-literal format string passed to a printf-family function.
+    severity: WARNING
+    metadata:
+      cwe: "CWE-134: Use of Externally-Controlled Format String"
+    pattern-regex: \b(printf|fprintf|sprintf|snprintf|vsnprintf)\s*\(\s*[A-Za-z_]

@@ -1,0 +1,11 @@
+# Keep the image lean: exclude runtime-only and transient files.
+reports/
+docker/target/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+.git/
+.gitignore
+.venv/
+venv/
+*.md

@@ -1,0 +1,27 @@
+# SPECTRE - DevSecOps multi-agent vulnerability detection
+# Orquestación
+langgraph>=0.2.60
+langchain>=0.3.13
+langchain-core>=0.3.28
+langchain-ollama>=0.2.2
+langchain-postgres>=0.0.12
+
+# Validación y estado
+pydantic>=2.9.2
+typing-extensions>=4.12.2
+
+# Base de datos vectorial
+psycopg[binary]>=3.2.3
+pgvector>=0.3.5
+
+# CLI / UX
+typer>=0.15.1
+rich>=13.9.4
+python-dotenv>=1.0.1
+
+# Event-driven + observability (fail-open: graceful no-op if backend absent)
+redis>=5.0.0
+asyncpg>=0.29.0
+opentelemetry-api>=1.24.0
+opentelemetry-sdk>=1.24.0
+opentelemetry-exporter-otlp>=1.24.0
